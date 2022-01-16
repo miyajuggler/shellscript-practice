@@ -5,7 +5,7 @@
 まず同じ階層にこのような json ファイルを作っておく。
 今回名前は `test.json` とした
 
-```
+```json
 {
   "message": null,
   "results": [
@@ -46,7 +46,7 @@
 
 ### 確認
 
-```
+```bash
 $ cat test.json
 {
   "message": null,
@@ -90,7 +90,7 @@ $ cat test.json
 
 ### 特定の key に絞る
 
-```
+```sh
 $ cat test.json | jq '.results'
 [
   {
@@ -128,7 +128,7 @@ $ cat test.json | jq '.results'
 
 ### key だけ取得
 
-```
+```sh
 $ cat test.json | jq '.|keys'
 [
   "message",
@@ -142,7 +142,7 @@ $ cat test.json | jq '.|keys'
 `.results[]` とすると、要素ごとにパイプに渡すことになる。
 `address1,address2,address3` とフィルタに渡していって、指定された `.address1` の value を出力してくれている
 
-```
+```sh
 $ cat test.json | jq '.results[].address1'
 "香川県"
 "東京都"
@@ -191,7 +191,7 @@ $ cat test.json | jq -r '.results[] | [.address1, .address2] | @csv'
 
 ちなみに `-r` オプションでダブルクォートは消える
 
-```
+```sh
 $ cat test.json | jq -r '.results[] | .address1'
 香川県
 東京都
@@ -203,7 +203,7 @@ $ cat test.json | jq -r '.results[] | .address1'
 `[]`がないとだめ
 シングルクォーテーションもないとだめ
 
-```
+```sh
 $ cat test.json | jq '.results.address1'
 jq: error (at <stdin>:36): Cannot index array with string "address1"
 
@@ -218,7 +218,7 @@ zsh: no matches found: .results[].address1
 
 select で value の検索ができる
 
-```
+```sh
 $ cat test.json | jq '.results[] | select(.address1 == "千葉県")'
 {
   "address1": "千葉県",
@@ -234,7 +234,7 @@ $ cat test.json | jq '.results[] | select(.address1 == "千葉県")'
 
 'and/or' で複数条件も可能
 
-```
+```sh
 cat test.json | jq '.results[] | select(.address1 == "千葉県" or .address1 == "東京都")'
 {
   "address1": "東京都",
@@ -264,7 +264,7 @@ cat test.json | jq '.results[] | select(.address1 == "千葉県" or .address1 ==
 
 パイプで渡した後に、.key で指定した key の value を指定可能
 
-```
+```sh
 $ cat test.json | jq '.results[] | select(.address1 == "千葉県") | { prefecture : .address1, zipcode: .zipcode }'
 {
   "prefecture": "千葉県",
@@ -275,7 +275,7 @@ $ cat test.json | jq '.results[] | select(.address1 == "千葉県") | { prefectu
 このように `(.key)` で、value を key として再編成することができる。
 以下は `都道府県:カナ` の形式で出力してみた。
 
-```
+```sh
 $ at test.json | jq '.results[] | select(.address1 == "千葉県") | { (.address1) : .kana1 }'
 {
   "千葉県": "ﾁﾊﾞｹﾝ"
@@ -288,7 +288,7 @@ $ at test.json | jq '.results[] | select(.address1 == "千葉県") | { (.address
 
 github の API で取れるアカウント情報には、リポジトリ一覧を取得するための URL が格納されている。
 
-```
+```sh
 $ curl -s https://api.github.com/users/miyajuggler
 {
   "login": "miyajuggler",
@@ -331,7 +331,7 @@ $ curl -s https://api.github.com/users/miyajuggler
 
 **`` で囲めば、出力結果をコマンドの特定の位置におけるので、1 行で書ける。（変数格納する必要なし！ xargs 使う必要なし！）**
 
-```
+```sh
 $ curl -s `curl -s https://api.github.com/users/miyajuggler | jq -r .repos_url` | jq '.[].name'
 "aws-cli-practice"
 "diff-practice"
