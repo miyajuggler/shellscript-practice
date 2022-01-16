@@ -3,17 +3,17 @@
 以下のように API を実行することができる。
 出力内容整形については jq を参考にする。
 
-```
+```bash
 curl -s "https://qiita.com/api/v2/users/ryuichi1208" | jq .
 ```
 
 # 基本形
 
-```
+```bash
 # HTTPリクエストを実施し結果を標準出力へ
 $ curl http://対象のURL
 
-#コンマや[]を使って範囲指定も出来る
+# コンマや[]を使って範囲指定も出来る
 $ curl 'http://{one,two,three}.example.com'
 $ curl 'http://[1-3].example.com'
 
@@ -55,7 +55,7 @@ $ curl -X PUT http://対象のURL
 - `-s` 余計な出力をしない
 - `-o` レスポンスボディの出力先を指定する
 
-```
+```bash
 $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 {
         "message": null,
@@ -77,13 +77,13 @@ $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 
 ### post
 
-```
+```bash
 $ curl -X POST -H "Content-Type: application/json" -d '{"Name":"sensuikan1973", "Age":"100"}' localhost:8080/api/v1/users
 ```
 
 # デバッグ系
 
-```
+```bash
 # HTTPレスポンスヘッダーの取得（-I）
 $ curl -I http://対象のURL
 
@@ -94,7 +94,7 @@ $ curl -v http://対象のURL
 $ curl -s http://対象のURL -o /dev/null -w '%{http_code}\n'
 ```
 
-```
+```bash
 curl -I "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
@@ -107,7 +107,7 @@ Server: Google Frontend
 
 `-v` を付けると、リクエストヘッダは > で表示され、レスポンスヘッダは < で表示される。どちらも標準エラー出力で表示される。
 
-```
+```bash
 $ curl -v "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 *   Trying 2404:6800:4004:820::2013:80...
 * Connected to zipcloud.ibsnet.co.jp (2404:6800:4004:820::2013) port 80 (#0)
@@ -143,14 +143,14 @@ $ curl -v "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 * Connection #0 to host zipcloud.ibsnet.co.jp left intact
 ```
 
-```
+```bash
 $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" -o /dev/null -w '%{http_code}\n'
 200
 ```
 
 # 結果に応じてコマンドを実行
 
-```
+```bash
 $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" | grep "北海道" >/dev/null 2>&1 && echo "hoge"
 
 $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" | grep "高知県" >/dev/null 2>&1 && echo "hoge"
