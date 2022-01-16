@@ -7,25 +7,25 @@ awk は入力として受け取った文字列に対して、フィールド区�
 コンマ区切り
 
 ```bash
-// 全部出す
+# 全部出す
 $ echo "111,222,333,444" | awk -F ',' '{print $0}'
 111,222,333,444
 
-// カンマ区切りの1つ目を取得
+# カンマ区切りの1つ目を取得
 $ echo "111,222,333,444" | awk -F ',' '{print $1}'
 111
 
-// カンマ区切りの3つ目取得
+# カンマ区切りの3つ目取得
 $ echo "111,222,333,444" | awk -F ',' '{print $3}'
 333
 
-// 末尾取得
+# 末尾取得
 $ echo "111,222,333,444" | awk -F ',' '{print $(NF)}'
 444
 $ echo "111,222,333,444" | awk -F ',' '{print $(NF-0)}'
 444
 
-// 末尾から1つ後ろ取得
+# 末尾から1つ後ろ取得
 $ echo "111,222,333,444" | awk -F ',' '{print $(NF-1)}'
 333
 ```
@@ -33,24 +33,24 @@ $ echo "111,222,333,444" | awk -F ',' '{print $(NF-1)}'
 スペース区切り
 
 ```bash
-// カンマ区切りの1つ目を取得
+# カンマ区切りの1つ目を取得
 $ echo "111 222 333 444" | awk '{print $1}'
 
-// 明示的に-Fを入れてもおｋ
+# 明示的に-Fを入れてもおｋ
 $ echo "111 222 333 444" | awk -F ' ' '{print $1}'
 111
 
-// カンマ区切りの3つ目取得
+# カンマ区切りの3つ目取得
 $ echo "111 222 333 444" | awk '{print $3}'
 333
 
-// 末尾取得
+# 末尾取得
 $ echo "111 222 333 444" | awk '{print $(NF)}'
 444
 $ echo "111 222 333 444" | awk '{print $(NF-0)}'
 444
 
-// 末尾から1つ後ろ取得
+# 末尾から1つ後ろ取得
 $ echo "111 222 333 444" | awk '{print $(NF-1)}'
 333
 ```
@@ -91,13 +91,13 @@ docker ps -a | grep "product-register_web_1" | awk '{print $(1)}'
 ```
 
 ```bash
-// ステータスが「Exited」のやつだけgrepで絞りこみ
+# ステータスが「Exited」のやつだけgrepで絞りこみ
 $ docker ps -a | grep "Exited"
 
-// 「awk」でコンテナ名だけ抜き出す
+# 「awk」でコンテナ名だけ抜き出す
 $ docker ps -a | grep "Exited" | awk '{print $(NF)}'
 
-// 「xargs docker start」にパイプして全部start
+# 「xargs docker start」にパイプして全部start
 $ docker ps -a | grep "Exited" | awk '{print $(NF)}' | xargs docker start
 ```
 
