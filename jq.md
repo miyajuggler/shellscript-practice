@@ -1,6 +1,7 @@
 # 準備
 
 まず同じ階層にこのような json ファイルを作っておく。
+今回名前は `test.json` とした
 
 ```
 {
@@ -41,7 +42,7 @@
 }
 ```
 
-# 確認
+### 確認
 
 ```
 $ cat test.json
@@ -163,6 +164,52 @@ $ cat test.json | jq '.results[] | .address1, .address2'
 "足立区"
 "千葉県"
 "千葉市中央区"
+
+# [] でくくるといい感じになる
+$ cat test.json | jq '.results[] | [.address1, .address2]'
+[
+  "香川県",
+  "高松市"
+]
+[
+  "東京都",
+  "足立区"
+]
+[
+  "千葉県",
+  "千葉市中央区"
+]
+
+# csv 出力
+$ cat test.json | jq -r '.results[] | [.address1, .address2] | @csv'
+"香川県","高松市"
+"東京都","足立区"
+"千葉県","千葉市中央区"
+```
+
+ちなみに `-r` オプションでダブルクォートは消える
+
+```
+$ cat test.json | jq -r '.results[] | .address1'
+香川県
+東京都
+千葉県
+```
+
+### 注意
+
+`[]`がないとだめ
+シングルクォーテーションもないとだめ
+
+```
+$ cat test.json | jq '.results.address1'
+jq: error (at <stdin>:36): Cannot index array with string "address1"
+
+$ cat test.json | jq '.results | .address1'
+jq: error (at <stdin>:36): Cannot index array with string "address1"
+
+$ cat test.json | jq .results[].address1
+zsh: no matches found: .results[].address1
 ```
 
 ### value を検索する
@@ -213,6 +260,8 @@ cat test.json | jq '.results[] | select(.address1 == "千葉県" or .address1 ==
 
 ### データを再形成
 
+パイプで渡した後に、.key で指定した key の value を指定可能
+
 ```
 $ cat test.json | jq '.results[] | select(.address1 == "千葉県") | { prefecture : .address1, zipcode: .zipcode }'
 {
@@ -220,3 +269,82 @@ $ cat test.json | jq '.results[] | select(.address1 == "千葉県") | { prefectu
   "zipcode": "2600000"
 }
 ```
+
+このように `(.key)` で、value を key として再編成することができる。
+以下は `都道府県:カナ` の形式で出力してみた。
+
+```
+$ at test.json | jq '.results[] | select(.address1 == "千葉県") | { (.address1) : .kana1 }'
+{
+  "千葉県": "ﾁﾊﾞｹﾝ"
+}
+```
+
+# 演習
+
+### `curl` と組み合わせて自分の github のリポジトリを列挙する
+
+github の API で取れるアカウント情報には、リポジトリ一覧を取得するための URL が格納されている。
+
+```
+$ curl -s https://api.github.com/users/miyajuggler
+{
+  "login": "miyajuggler",
+  "id": 85389214,
+  "node_id": "MDQ6VXNlcjg1Mzg5MjE0",
+  "avatar_url": "https://avatars.githubusercontent.com/u/85389214?v=4",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/miyajuggler",
+  "html_url": "https://github.com/miyajuggler",
+  "followers_url": "https://api.github.com/users/miyajuggler/followers",
+  "following_url": "https://api.github.com/users/miyajuggler/following{/other_user}",
+  "gists_url": "https://api.github.com/users/miyajuggler/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/miyajuggler/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/miyajuggler/subscriptions",
+  "organizations_url": "https://api.github.com/users/miyajuggler/orgs",
+  "repos_url": "https://api.github.com/users/miyajuggler/repos",
+  "events_url": "https://api.github.com/users/miyajuggler/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/miyajuggler/received_events",
+  "type": "User",
+  "site_admin": false,
+  "name": "Naohiro Miyazaki",
+  "company": null,
+  "blog": "",
+  "location": null,
+  "email": null,
+  "hireable": null,
+  "bio": null,
+  "twitter_username": null,
+  "public_repos": 13,
+  "public_gists": 0,
+  "followers": 0,
+  "following": 4,
+  "created_at": "2021-06-05T08:22:46Z",
+  "updated_at": "2022-01-15T05:10:58Z"
+}
+```
+
+そのため、github API で リポジトリ一覧を取得するための URL を取得 => リポジトリ一覧を取得するための URL を 使って リポジトリを列挙する。
+つまり 2 回 curl コマンドを使う。
+
+```
+$ curl -s `curl -s https://api.github.com/users/miyajuggler | jq -r .repos_url` | jq '.[].name'
+"aws-cli-practice"
+"diff-practice"
+"git-practice"
+"kubernetes-basics"
+"kubernetes-practice"
+"main-project"
+"my-first-repo"
+"product-registry"
+"revert-reset-practice"
+"sample-repo"
+"shellscript-practice"
+"sub-project"
+"typescript-for-javascript-developers"
+```
+
+# 参考
+
+[jq コマンドで json から必要なデータのみを取得する
+](https://qiita.com/buntafujikawa/items/a769ebabbdd324ff0d6f)
