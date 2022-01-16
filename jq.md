@@ -327,6 +327,8 @@ $ curl -s https://api.github.com/users/miyajuggler
 そのため、github API で リポジトリ一覧を取得するための URL を取得 => リポジトリ一覧を取得するための URL を 使って リポジトリを列挙する。
 つまり 2 回 curl コマンドを使う。
 
+**`` で囲めば、出力結果をコマンドの特定の位置におけるので、1 行で書ける。（変数格納する必要なし！ xargs 使う必要なし！）**
+
 ```
 $ curl -s `curl -s https://api.github.com/users/miyajuggler | jq -r .repos_url` | jq '.[].name'
 "aws-cli-practice"
