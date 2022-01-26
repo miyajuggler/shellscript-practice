@@ -14,7 +14,7 @@ docker ps -a | grep "21a2a1f5d5bd" | awk '{print $(NF)}'
 - 名前を指定して ID のみ出力
 
 ```sh
-docker ps -f "name=product-register_web_1" -a --format "{{.ID}}"
+docker ps -a -f "name=product-register_web_1" -a --format "{{.ID}}"
 ```
 
 - 名前を指定して ID のみ出力その 2

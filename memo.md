@@ -57,3 +57,19 @@ curl -s https://api.ipify.org
 ```
 echo hello >/dev/null 2>&1
 ```
+
+```
+CERTIFICATE_ARN=$(aws acm request-certificate \
+  --domain-name *.${MY_DOMAIN} \
+  --validation-method DNS \
+  --query "CertificateArn" --output text) && echo $CERTIFICATE_ARN
+```
+
+```
+sed -i -e "s/%VALIDATION_RECORD_NAME%/$VALIDATION_RECORD_NAME/" $VALIDATION_RECORD_FILE
+```
+
+```sh
+# Initialize
+git restore $VALIDATION_RECORD_FILE
+```
