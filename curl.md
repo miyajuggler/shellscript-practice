@@ -1,4 +1,6 @@
-# 基本
+# curl
+
+## 基本
 
 以下のように API を実行することができる。
 出力内容整形については jq を参考にする。
@@ -7,7 +9,7 @@
 curl -s "https://qiita.com/api/v2/users/ryuichi1208" | jq .
 ```
 
-# 基本形
+## 基本形
 
 ```bash
 # HTTPリクエストを実施し結果を標準出力へ
@@ -49,7 +51,7 @@ $ curl -C - http://対象のURL
 $ curl -X PUT http://対象のURL
 ```
 
-# よく使うオプション
+## よく使うオプション
 
 - `-L` リダイレクトがあったらリダイレクト先の情報を取る
 - `-s` 余計な出力をしない
@@ -81,7 +83,7 @@ $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060"
 $ curl -X POST -H "Content-Type: application/json" -d '{"Name":"sensuikan1973", "Age":"100"}' localhost:8080/api/v1/users
 ```
 
-# デバッグ系
+## デバッグ系
 
 ```bash
 # HTTPレスポンスヘッダーの取得（-I）
@@ -148,7 +150,7 @@ $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" -o /dev/null
 200
 ```
 
-# 結果に応じてコマンドを実行
+## 結果に応じてコマンドを実行
 
 ```bash
 $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" | grep "北海道" >/dev/null 2>&1 && echo "hoge"
@@ -157,7 +159,20 @@ $ curl -s "http://zipcloud.ibsnet.co.jp/api/search?zipcode=7830060" | grep "高�
 hoge
 ```
 
-# 参考
+## CRUD 処理のテンプレ
+
+```sh
+# get
+curl -s http://localhost:5000/v1/organizations
+
+curl -X POST -H "Content-Type: application/json" -d '{"userId": "aguroaguro-a", "userName": "あぐろあぐろ","organizationId": 3}' http://localhost:5000/v1/users
+
+curl -X PUT -H "Content-Type: application/json" -d '{"userId": "aguroaguro-a", "userName": "あーぐーろー","organizationId": 3}' http://localhost:5000/v1/users/aguroaguro-a
+
+curl -X DELETE http://localhost:5000/v1/users/aguroaguro-a
+```
+
+## 参考
 
 - [よく使う curl コマンドのオプション](https://qiita.com/ryuichi1208/items/e4e1b27ff7d54a66dcd9)
 - [curl コマンドで api を叩く](https://qiita.com/buntafujikawa/items/758425773b2239feb9a7)
