@@ -65,7 +65,7 @@ CERTIFICATE_ARN=$(aws acm request-certificate \
   --query "CertificateArn" --output text) && echo $CERTIFICATE_ARN
 ```
 
-```
+```sh
 sed -i -e "s/%VALIDATION_RECORD_NAME%/$VALIDATION_RECORD_NAME/" $VALIDATION_RECORD_FILE
 ```
 

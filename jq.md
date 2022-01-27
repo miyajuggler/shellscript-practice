@@ -1,6 +1,8 @@
-# 基本
+# jq
 
-# 準備
+## 基本
+
+## 準備
 
 まず同じ階層にこのような json ファイルを作っておく。
 今回名前は `test.json` とした
@@ -86,7 +88,7 @@ $ cat test.json
 }
 ```
 
-# 必要なデータだけ取得
+## 必要なデータだけ取得
 
 ### 特定の key に絞る
 
@@ -232,6 +234,33 @@ $ cat test.json | jq '.results[] | select(.address1 == "千葉県")'
 }
 ```
 
+部分一致検索も可能
+`select ( .キー名 | contains("文字列"))`
+
+```sh
+$ cat test.json | jq '.results[] | select(.address1 | contains("県"))'
+{
+  "address1": "香川県",
+  "address2": "高松市",
+  "address3": "",
+  "kana1": "ｶｶﾞﾜｹﾝ",
+  "kana2": "ﾀｶﾏﾂｼ",
+  "kana3": "",
+  "prefcode": "37",
+  "zipcode": "7600000"
+}
+{
+  "address1": "千葉県",
+  "address2": "千葉市中央区",
+  "address3": "",
+  "kana1": "ﾁﾊﾞｹﾝ",
+  "kana2": "ﾁﾊﾞｼﾁｭｳｵｳｸ",
+  "kana3": "",
+  "prefcode": "12",
+  "zipcode": "2600000"
+}
+```
+
 'and/or' で複数条件も可能
 
 ```sh
@@ -258,7 +287,7 @@ cat test.json | jq '.results[] | select(.address1 == "千葉県" or .address1 ==
 }
 ```
 
-# 取得したデータを整形して出力
+## 取得したデータを整形して出力
 
 ### データを再形成
 
@@ -282,7 +311,7 @@ $ at test.json | jq '.results[] | select(.address1 == "千葉県") | { (.address
 }
 ```
 
-# 演習
+## 演習
 
 ### `curl` と組み合わせて自分の github のリポジトリを列挙する
 
@@ -348,7 +377,8 @@ $ curl -s `curl -s https://api.github.com/users/miyajuggler | jq -r .repos_url` 
 "typescript-for-javascript-developers"
 ```
 
-# 参考
+## 参考
 
-[jq コマンドで json から必要なデータのみを取得する
-](https://qiita.com/buntafujikawa/items/a769ebabbdd324ff0d6f)
+- [jq コマンドで json から必要なデータのみを取得する](https://qiita.com/buntafujikawa/items/a769ebabbdd324ff0d6f)
+
+- [jq コマンドの基本的な使い方と便利なオプションまとめ](<https://www.setouchino.cloud/blogs/19#:~:text=2.-,%E5%80%A4%E3%82%92%E3%81%82%E3%81%84%E3%81%BE%E3%81%84%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B(like%E6%A4%9C%E7%B4%A2),-%E6%96%87%E5%AD%97%E5%88%97%E3%81%AE>)
