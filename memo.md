@@ -41,14 +41,14 @@ echo ${aaa[@]} | xargs -n1
 curl -s https://api.ipify.org
 ```
 
-# &>/dev/null と >/dev/null
+## &>/dev/null と >/dev/null
 
-## &>/dev/null
+### &>/dev/null
 
 `/dev/null 2>&1` と同じ。
 標準出力と標準エラー出力の両方共を破棄する。
 
-## /dev/null
+### /dev/null
 
 `1>/dev/null` と同じ。標準出力を捨てる。
 
@@ -57,6 +57,8 @@ curl -s https://api.ipify.org
 ```
 echo hello >/dev/null 2>&1
 ```
+
+エイリアス
 
 ```
 CERTIFICATE_ARN=$(aws acm request-certificate \
@@ -72,4 +74,30 @@ sed -i -e "s/%VALIDATION_RECORD_NAME%/$VALIDATION_RECORD_NAME/" $VALIDATION_RECO
 ```sh
 # Initialize
 git restore $VALIDATION_RECORD_FILE
+```
+
+```sh
+# ファイルの容量がわかるコマンド
+$ du -s example.mp3
+
+# カレントディレクトリにあるファイルすべての容量を表示
+$ du -ah
+```
+
+```sh
+# df - ファイル・システム内のフリー・スペースの量を表示する
+$ df -h
+```
+
+```sh
+# 環境変数が見れる
+$ env
+```
+
+### 変数を使う場合
+
+['"+"'] で囲む
+
+```sh
+$ curl -X POST -H 'Content-Type: application/json' --data '{"text":"'"$fuga"'"}' https://〜〜
 ```

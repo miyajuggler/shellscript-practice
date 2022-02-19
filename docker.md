@@ -1,36 +1,40 @@
-- ID を指定して名前の部分だけ出力
+# docker
+
+## いろいろあそび
+
+### ID を指定して名前の部分だけ出力
 
 ```sh
 docker ps -f "id=21a2a1f5d5bd" -a --format "{{.Names}}"
 ```
 
-- ID を指定して名前の部分だけ出力その 2
+### ID を指定して名前の部分だけ出力その 2
 
 ```sh
 docker ps -a | grep "21a2a1f5d5bd" | awk -F ' ' '{print $(NF)}'
 docker ps -a | grep "21a2a1f5d5bd" | awk '{print $(NF)}'
 ```
 
-- 名前を指定して ID のみ出力
+### 名前を指定して ID のみ出力
 
 ```sh
 docker ps -a -f "name=product-register_web_1" -a --format "{{.ID}}"
 ```
 
-- 名前を指定して ID のみ出力その 2
+### 名前を指定して ID のみ出力その 2
 
 ```sh
 docker ps -a | grep "product-register_web_1" | awk -F ' ' '{print $(1)}'
 docker ps -a | grep "product-register_web_1" | awk '{print $(1)}'
 ```
 
-- 名前を指定して ID のみ出力その 3
+### 名前を指定して ID のみ出力その 3
 
 ```sh
 docker ps -f "name=product-register_web_1" -a -q
 ```
 
-- ステータスが「Exited」のやつだけ grep で絞りこみ
+### ステータスが「Exited」のやつだけ grep で絞りこみ
 
 ```sh
 $ docker ps -a | grep "Exited"
@@ -39,22 +43,22 @@ a99e44d4a392   0904b518ad08             "docker-entrypoint.s…"   5 months ago 
 84288af6aea6   4280b192841f             "jupyter lab --ip=0.…"   5 months ago   Exited (1) 5 months ago
 ```
 
-- 「awk」でコンテナ名だけ抜き出す
+### 「awk」でコンテナ名だけ抜き出す
 
-```
+```sh
 $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}'
 product-register_web_1
 product-register_db_1
 my-lab
 ```
 
-- 「xargs docker start」にパイプして全部 start
+### 「xargs docker start」にパイプして全部 start
 
 ```sh
 $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}' | xargs docker start
 ```
 
-- -p をつけることで実行コマンドを確認できる。
+### -p をつけることで実行コマンドを確認できる
 
 ```sh
 $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}' | xargs -p docker start

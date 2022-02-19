@@ -1,8 +1,10 @@
-# 基本
+# awk
+
+## 基本
 
 awk は入力として受け取った文字列に対して、フィールド区切り文字やレコード区切り文字を指定して、「列」に対する処理を行うためのコマンド
 
-# 例
+## 例
 
 コンマ区切り
 
@@ -101,7 +103,7 @@ $ docker ps -a | grep "Exited" | awk '{print $(NF)}'
 $ docker ps -a | grep "Exited" | awk '{print $(NF)}' | xargs docker start
 ```
 
-# 参考
+## 参考
 
 - [https://7me.nobiki.com/2017/04/27/awk-xargs-sed-memo/](https://7me.nobiki.com/2017/04/27/awk-xargs-sed-memo/)
 - [https://it-ojisan.tokyo/awk-f/](https://it-ojisan.tokyo/awk-f/)
