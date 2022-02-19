@@ -76,20 +76,20 @@ a99e44d4a392   0904b518ad08             "docker-entrypoint.s…"   4 months ago 
 
 ```bash
 # IDを指定して名前のみだけ出力
-docker ps -a | grep "21a2a1f5d5bd" | awk -F ' ' '{print $(NF)}'
+$ docker ps -a | grep "21a2a1f5d5bd" | awk -F ' ' '{print $(NF)}'
 
 # 名前を指定してIDのみを出力
-docker ps -a | grep "product-register_web_1" | awk -F ' ' '{print $(1)}'
+$ docker ps -a | grep "product-register_web_1" | awk -F ' ' '{print $(1)}'
 ```
 
 最初の`-F`はなくてもいける
 
 ```bash
 # IDを指定してのみだけ出力
-docker ps -a | grep "21a2a1f5d5bd" | awk '{print $(NF)}'
+$ docker ps -a | grep "21a2a1f5d5bd" | awk '{print $(NF)}'
 
 # 名前を指定してIDのみを出力
-docker ps -a | grep "product-register_web_1" | awk '{print $(1)}'
+$ docker ps -a | grep "product-register_web_1" | awk '{print $(1)}'
 ```
 
 ```bash
@@ -105,5 +105,5 @@ $ docker ps -a | grep "Exited" | awk '{print $(NF)}' | xargs docker start
 
 ## 参考
 
-- [https://7me.nobiki.com/2017/04/27/awk-xargs-sed-memo/](https://7me.nobiki.com/2017/04/27/awk-xargs-sed-memo/)
-- [https://it-ojisan.tokyo/awk-f/](https://it-ojisan.tokyo/awk-f/)
+- [awk とか xargs とか sed をそろそろ日常的に使っていきたい人のメモ](https://7me.nobiki.com/2017/04/27/awk-xargs-sed-memo/)
+- [awk の-F オプションで区切り文字を指定する方法](https://it-ojisan.tokyo/awk-f/)
