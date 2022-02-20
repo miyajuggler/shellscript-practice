@@ -64,3 +64,35 @@ $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}' | xargs docker start
 $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}' | xargs -p docker start
 docker start product-register_web_1 product-register_db_1 my-lab?...
 ```
+
+### Docker image のレイヤ構造は docker history で確認
+
+```sh
+$ docker history <image ID>
+```
+
+08 のメモ参照の Dockerfile
+
+```Dockerfile
+FROM ubuntu:latest
+RUN mkdir sample
+WORKDIR /sample
+RUN touch test
+```
+
+image 作成 & コンテナを建てる
+
+```sh
+$ docker build .
+$ docker run -it c21f80823323 bash
+```
+
+```sh
+$ docker history c21f80823323
+IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
+c21f80823323   39 hours ago   RUN /bin/sh -c touch test # buildkit            0B        buildkit.dockerfile.v0
+<missing>      39 hours ago   WORKDIR /sample                                 0B        buildkit.dockerfile.v0
+<missing>      39 hours ago   RUN /bin/sh -c mkdir sample # buildkit          0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago    /bin/sh -c #(nop)  CMD ["bash"]                 0B
+<missing>      2 weeks ago    /bin/sh -c #(nop) ADD file:3acc741be29b0b58e…   65.6MB
+```

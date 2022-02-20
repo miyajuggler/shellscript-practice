@@ -6,7 +6,7 @@ case "$yn" in
 esac
 ```
 
-### 文字列 A に文字列 B が含まれるか
+## 文字列 A に文字列 B が含まれるか
 
 ```
 if [ `echo 'hogefuga' | grep 'fuga'` ] ; then
@@ -28,14 +28,14 @@ case "$yn" in
 esac
 ```
 
-### 出力を一列で
+## 出力を一列で
 
 ```
 aaa=("7.7.7.5/32" "7.7.7.4/32" "7.7.7.6/32" "1.1.1.1/32" "7.7.7.1/32")
 echo ${aaa[@]} | xargs -n1
 ```
 
-### 自宅ローカル IP 取得
+## 自宅ローカル IP 取得
 
 ```
 curl -s https://api.ipify.org
@@ -58,7 +58,7 @@ curl -s https://api.ipify.org
 echo hello >/dev/null 2>&1
 ```
 
-エイリアス
+## エイリアス
 
 ```
 CERTIFICATE_ARN=$(aws acm request-certificate \
@@ -75,6 +75,8 @@ sed -i -e "s/%VALIDATION_RECORD_NAME%/$VALIDATION_RECORD_NAME/" $VALIDATION_RECO
 # Initialize
 git restore $VALIDATION_RECORD_FILE
 ```
+
+## 容量確認系
 
 ```sh
 # ファイルの容量がわかるコマンド
@@ -94,10 +96,29 @@ $ df -h
 $ env
 ```
 
-### 変数を使う場合
+## コマンドの中で変数を使う場合
 
-['"+"'] で囲む
+['"$aaa"'] で囲む。よく使う
 
 ```sh
 $ curl -X POST -H 'Content-Type: application/json' --data '{"text":"'"$fuga"'"}' https://〜〜
+```
+
+テキストのみ
+
+```sh
+$ curl -X POST -H 'Content-Type: application/json' --data '{"text":"hogehoge"}' https://〜〜
+```
+
+テキストと変数
+
+```sh
+$ curl -X POST -H 'Content-Type: application/json' --data '{"text":"hogehoge'"$fuga"'"}' https://〜〜
+```
+
+## その他よく使うコマンド
+
+```sh
+# ディレクトリの中見ごと消す
+$ rm -r <ディレクトリ名>
 ```
