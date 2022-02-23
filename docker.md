@@ -87,7 +87,7 @@ $ docker build .
 $ docker run -it c21f80823323 bash
 ```
 
-```sh
+```
 $ docker history c21f80823323
 IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
 c21f80823323   39 hours ago   RUN /bin/sh -c touch test # buildkit            0B        buildkit.dockerfile.v0
