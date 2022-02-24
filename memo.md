@@ -1,3 +1,5 @@
+## 確認系テンプレ
+
 ```
 read -p "ok? (y/N): " yn
 case "$yn" in
@@ -48,14 +50,28 @@ curl -s https://api.ipify.org
 `/dev/null 2>&1` と同じ。
 標準出力と標準エラー出力の両方共を破棄する。
 
+```sh
+# 何も帰ってこない
+echo hello &>/dev/null
+
+# 何も帰ってこない
+$ aaaaaaa hello &>/dev/null
+
+```
+
 ### /dev/null
 
 `1>/dev/null` と同じ。標準出力を捨てる。
 
 例えば以下のコマンドでは何も出力が帰ってこない
 
-```
-echo hello >/dev/null 2>&1
+```sh
+# 何も帰ってこない
+$ echo hello >/dev/null
+
+# エラーは帰ってくる
+$ aaaaaaa hello >/dev/null
+zsh: command not found: aaaaaaa
 ```
 
 ## エイリアス
@@ -67,9 +83,13 @@ CERTIFICATE_ARN=$(aws acm request-certificate \
   --query "CertificateArn" --output text) && echo $CERTIFICATE_ARN
 ```
 
+## sed
+
 ```sh
 sed -i -e "s/%VALIDATION_RECORD_NAME%/$VALIDATION_RECORD_NAME/" $VALIDATION_RECORD_FILE
 ```
+
+## git 配下の変更初期化
 
 ```sh
 # Initialize

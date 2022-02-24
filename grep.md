@@ -44,6 +44,10 @@ kubernetes-dashboard   kubernetes-dashboard-57c9bfc8c8-jdfjg        1/1   Runnin
 
 検索したいものを羅列することができる。
 
+### egrep
+
+egrep コマンドの動作は -E オプションを指定した grep コマンドと同じ
+
 ### 活用例
 
 ```sh
@@ -54,6 +58,7 @@ $ kubectl get po -A | grep -v '1/1\|2/2\|3/3' | grep -v completed
 # node の名前と taints の情報を見る
 $ kubectl describe no | grep -e Name: -e Taints:
 $ kubectl describe no | grep 'Name:\|Taints:'
+$ kubectl describe no | egrep "Name:|Taints:"
 
 #  ステータスが「Exited」のやつだけ grep で絞りこみ、名前の部分を awk コマンドで抜き出す
 $ docker ps -a | grep "Exited" | awk -F ' ' '{print $(NF)}'
