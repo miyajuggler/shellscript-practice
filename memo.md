@@ -51,22 +51,21 @@ curl -s https://api.ipify.org
 標準出力と標準エラー出力の両方共を破棄する。
 
 ```sh
-# 何も帰ってこない
+# 何も返ってこない
 echo hello &>/dev/null
 
-# 何も帰ってこない
+# 何も返ってこない
 $ aaaaaaa hello &>/dev/null
-
 ```
 
 ### /dev/null
 
 `1>/dev/null` と同じ。標準出力を捨てる。
 
-例えば以下のコマンドでは何も出力が帰ってこない
+例えば以下のコマンドでは何も出力が返ってこない
 
 ```sh
-# 何も帰ってこない
+# 何も返ってこない
 $ echo hello >/dev/null
 
 # エラーは帰ってくる
@@ -118,7 +117,7 @@ $ env
 
 ## コマンドの中で変数を使う場合
 
-['"$aaa"'] で囲む。よく使う
+「'"$aaa"'」 で囲む。よく使う
 
 ```sh
 $ curl -X POST -H 'Content-Type: application/json' --data '{"text":"'"$fuga"'"}' https://〜〜
@@ -138,7 +137,27 @@ $ curl -X POST -H 'Content-Type: application/json' --data '{"text":"hogehoge'"$f
 
 ## その他よく使うコマンド
 
+### rm
+
 ```sh
 # ディレクトリの中見ごと消す
 $ rm -r <ディレクトリ名>
+
+# ワイルドカートの後に拡張子（ここでは.txt）を指定することで、指定した拡張子のファイルは全て削除
+$ rm *.txt
+```
+
+-f（–force）オプション  
+存在しないファイルを削除しようとしたときなどに警告メッセージが表示されますが、-f（--force）オプションをつけると、警告メッセージを表示しません。
+
+
+```sh
+aaa=$(ls /usr/local/Cellar/cowsay/3.04_1/share/cows/ | grep .cow)
+for i in $aaa
+do
+cowsay -f $i hello im $i
+done 
+
+for i in $(ls /usr/local/Cellar/cowsay/3.04_1/share/cows/ | grep .cow); do 
+cowsay -f $i hello im $i; done 
 ```
